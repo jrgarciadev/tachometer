@@ -4,28 +4,35 @@
  * el circuito ese basa en el Sensor de efecto Hall
  * @author Junior Garcia <jrgarciadev@gmail.com>
  */
- 
-PImage bg_gauge, bg_needle;
+
+PImage gauge_img, needle_img;
 
 final static float NEEDLE_CENTER_X = 276;
 final static float NEEDLE_CENTER_Y = 8;
-
+float needle_trsn_x;
+float needle_trsn_y; 
+float needle_x;
+float needle_y;
 //Sensor value
 float value = 0;
 
 void setup() {
   size(640, 452);
-  bg_gauge = loadImage("resources/gauge.png");
-  bg_needle = loadImage("resources/needle.png");
+  gauge_img = loadImage("resources/gauge.png");
+  needle_img = loadImage("resources/needle.png");
+  needle_x = needle_img.width / 2;
+  needle_y = needle_img.height * 0.89;
+  needle_trsn_x = NEEDLE_CENTER_X + needle_x;
+  needle_trsn_y = NEEDLE_CENTER_Y + needle_y;
 }
 
 void draw() {
-  background(bg_gauge);
-  pushMatrix();
-  translate(NEEDLE_CENTER_X + bg_needle.width / 2, NEEDLE_CENTER_Y + bg_needle.height * 0.89);
+  background(gauge_img);
+  //pushMatrix();
+  translate(needle_trsn_x, needle_trsn_y );
   rotate(value);
-  translate(-bg_needle.width / 2, -bg_needle.height * 0.89);
-  image(bg_needle, 0, 0);
-  popMatrix();
-  value = value + 0.01;
+  translate(-needle_x, -needle_y);
+  image(needle_img, 0, 0);
+  //popMatrix();
+  value = value + 0.02;
 }
