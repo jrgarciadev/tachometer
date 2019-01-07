@@ -7,8 +7,8 @@
  
 PImage bg_gauge, bg_needle;
 
-final static int NEEDLE_CENTER_X = 276;
-final static int NEEDLE_CENTER_Y = 8;
+final static float NEEDLE_CENTER_X = 276;
+final static float NEEDLE_CENTER_Y = 8;
 int cx, cy;
 float circle_diametre;
 float speed_radius;
@@ -48,15 +48,16 @@ void draw() {
   //stroke(167,20,20);
   //strokeWeight(4);
   //line(cx, cy, cx + cos(s) * speed_radius, cy + sin(s) * speed_radius);
-  delay(100);
+  //delay(100);
+  
+ 
+  println(rot);
  
   pushMatrix();
-  translate(NEEDLE_CENTER_X + bg_needle.width / 2, NEEDLE_CENTER_Y + bg_needle.height);
+  translate(NEEDLE_CENTER_X + bg_needle.width / 2, NEEDLE_CENTER_Y + bg_needle.height * 0.89);
   rotate(rot);
-  translate(-bg_needle.width / 2, -bg_needle.height);
+  translate(-bg_needle.width / 2, -bg_needle.height * 0.89);
   image(bg_needle, 0, 0);
   popMatrix();
-  rot = rot + 0.05;
-  
-     
+  rot = rot + 0.01;
 }
