@@ -1,11 +1,10 @@
-
+ //<>//
 /**
  * Tacometro en RPM, recibe los datos del puerto serial de Arduino UNO
  * el circuito ese basa en el Sensor de efecto Hall
  * @author Junior Garcia <jrgarciadev@gmail.com>
  */
-
- //<>//
+import processing.serial.*;
 PImage gauge_img, needle_img;
 
 
@@ -17,8 +16,9 @@ float needle_x;
 float needle_y;
 //Sensor value
 float min_value = -2.09;
-float max_value = 1.6;
+float max_value = 2.6;
 float value = 0;
+Serial myPort;  // Create object from Serial class
 
 void setup() {
   size(640, 452);
@@ -29,22 +29,29 @@ void setup() {
   needle_trsn_x = NEEDLE_CENTER_X + needle_x;
   needle_trsn_y = NEEDLE_CENTER_Y + needle_y;
   value = min_value;
- }
+  String portName = "/dev/ttyUSB0";
+  //String [] ports = Serial.list();
+  //for(int i = 0 ; i < ports.length; i++){
+  //    println(ports[i]);
+  //}
+  myPort = new Serial(this, portName, 9600);
+}
 
 void draw() {
   background(gauge_img);
-  //ellipse(mouseX, mouseY, 30, 30);
-  text("RPM:" + (float) value , 500, 440);
-    //pushMatrix();
+  
+  if ( myPort.available() > 0) {
+    //println(value);
+    println(myPort.read());
+    value = map_float(myPort.read(), 0, 1020, min_value, max_value );             
+  }
+  text("RPM:" + (float) value, 500, 440);
   translate(needle_trsn_x, needle_trsn_y );
   rotate(value);
   translate(-needle_x, -needle_y);
   image(needle_img, 0, 0);
-  //popMatrix();
-  if(value >= max_value){
-    value = value - 0.01;
-  } else {
-    value = value + 0.01;
-  }
-  
+}
+
+float map_float(int val, int in_min, int in_max, float out_min, float out_max) {
+    return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
