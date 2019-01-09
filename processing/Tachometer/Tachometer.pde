@@ -5,7 +5,7 @@
  * @author Junior Garcia <jrgarciadev@gmail.com>
  */
 import processing.serial.*;
-PImage gauge_img, needle_img;
+PImage rpm_img, needle_img;
 
 
 final static float NEEDLE_CENTER_X = 276;
@@ -22,7 +22,7 @@ Serial myPort;  // Create object from Serial class
 
 void setup() {
   size(640, 452);
-  gauge_img = loadImage("resources/gauge.png");
+  rpm_img = loadImage("resources/rpm.png");
   needle_img = loadImage("resources/needle.png");
   needle_x = needle_img.width / 2;
   needle_y = needle_img.height * 0.89;
@@ -31,19 +31,18 @@ void setup() {
   value = min_value;
   // for Linux
   //String portName = "/dev/ttyUSB0";
-  //String [] ports = Serial.list();
+  
   // for Windows
   String portName = Serial.list()[0];
   myPort = new Serial(this, portName, 9600);
 }
 
 void draw() {
-  background(gauge_img);
+  background(rpm_img);
   
   if ( myPort.available() > 0) {
     println(value);
-    //println(myPort.read());
-    value = map_float(myPort.read(), 0, 1020, min_value, max_value );             
+    value = map_float(myPort.read(), 0, 255, min_value, max_value );             
   }
   text("RPM:" + (float) value, 500, 440);
   translate(needle_trsn_x, needle_trsn_y );
