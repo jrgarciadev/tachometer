@@ -29,11 +29,11 @@ void setup() {
   needle_trsn_x = NEEDLE_CENTER_X + needle_x;
   needle_trsn_y = NEEDLE_CENTER_Y + needle_y;
   value = min_value;
-  String portName = "/dev/ttyUSB0";
+  // for Linux
+  //String portName = "/dev/ttyUSB0";
   //String [] ports = Serial.list();
-  //for(int i = 0 ; i < ports.length; i++){
-  //    println(ports[i]);
-  //}
+  // for Windows
+  String portName = Serial.list()[0];
   myPort = new Serial(this, portName, 9600);
 }
 
@@ -41,8 +41,8 @@ void draw() {
   background(gauge_img);
   
   if ( myPort.available() > 0) {
-    //println(value);
-    println(myPort.read());
+    println(value);
+    //println(myPort.read());
     value = map_float(myPort.read(), 0, 1020, min_value, max_value );             
   }
   text("RPM:" + (float) value, 500, 440);

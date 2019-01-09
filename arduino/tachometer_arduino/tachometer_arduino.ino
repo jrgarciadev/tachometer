@@ -17,7 +17,7 @@ void setup() {
 void loop() {
   sensor_value = analogRead(sensor_pin);
   Serial.write(map(sensor_value, 0, 1020, 0, 255));                     
-  delay(20);
+  delay(30);
   /*
   if (digitalRead(switchPin) == HIGH) { 
     Serial.write(1);                     
