@@ -5,17 +5,21 @@
  * @author Junior Garcia <jrgarciadev@gmail.com>
  */
 
-int led_pin = 13;                       
-int sensor_pin = A0;
-int sensor_value = 0;
+volatile int count = 0;
 
 void setup() {
-  pinMode(led_pin, OUTPUT);             
-  Serial.begin(9600);                    
+  Serial.begin(57600);
+  attachInterrupt(0, interruption_0, RISING);                 
 }
 
 void loop() {
-  sensor_value = analogRead(sensor_pin);
-  Serial.write(map(sensor_value, 0, 1020, 0, 255));                     
-  delay(30);
+  delay(200);
+  //Serial.println(map(count, 0, 1020, 0, 255));   
+  Serial.println(count * 20);   
+  count = 0;
 }
+
+void interruption_0(){
+  count++;
+}
+
